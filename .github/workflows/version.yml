@@ -51,9 +51,11 @@ jobs:
           installer-parallel: true
       
       - name: Bump Version
-        - run: poetry version prerelease
-        - run: PROJECT_VERSION=v$(poetry version --short)
-        - run: echo "Project version is $PROJECT_VERSION"
+        run: |
+          poetry version prerelease
+          PROJECT_VERSION=v$(poetry version --short)
+          echo "Project version is $PROJECT_VERSION"
+      
       # - name: Commit with [RELEASE]
       #   with:
       #     token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
