@@ -56,7 +56,7 @@ jobs:
         run: |
           poetry version prerelease --no-interaction
           sleep 1
-          echo $(poetry version)
+          echo $(poetry version --short)
           PROJECT_VERSION=$(poetry version --short)
           echo "Project version is $(PROJECT_VERSION)"
           git config --global user.name 'gh-actions'
