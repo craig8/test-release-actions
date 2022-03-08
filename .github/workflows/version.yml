@@ -55,9 +55,7 @@ jobs:
       - name: Bump and Commit
         run: |
           poetry version prerelease --no-interaction
-          sleep 1
-          echo $(poetry version --short)
-          PROJECT_VERSION=$(poetry version --short)
+          PROJECT_VERSION=v$(poetry version --short) >> $GITHUB_ENV
           echo "Project version is $(PROJECT_VERSION)"
           git config --global user.name 'gh-actions'
           git config --global user.email '3979063+craig8@users.noreply.github.com'
