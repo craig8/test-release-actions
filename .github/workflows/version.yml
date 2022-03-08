@@ -53,7 +53,7 @@ jobs:
       - name: Bump Version
         run: | 
           poetry version prerelease
-          PROJECT_VERSION="v$(poetry version --short)"
+          PROJECT_VERSION=v$(poetry version --short)
 
       - name: Commit with [RELEASE]
         with:
