@@ -53,7 +53,7 @@ jobs:
           installer-parallel: true
           
       - run: poetry version prerelease
-      - run: export PROJECT_VERSION=v$(poetry version --short)
+      - run: export PROJECT_VERSION="v$(poetry version --short)"
       - run: echo "Project version is $PROJECT_VERSION"
       - run: git config --global user.name 'gh-actions'
       - run: git config --global user.email '3979063+craig8@users.noreply.github.com'
