@@ -51,15 +51,17 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
           installer-parallel: true
-          
-      - run: poetry version prerelease
-      - run: export PROJECT_VERSION="v$(poetry version --short)"
-      - run: echo "Project version is $(PROJECT_VERSION)"
-      - run: git config --global user.name 'gh-actions'
-      - run: git config --global user.email '3979063+craig8@users.noreply.github.com'
-      - run: git add pyproject.toml
-      - run: git commit -m "[RELEASE] $(PROJECT_VERSION)"
-      - run: git push
+      
+      - name: Bump and Commit
+        run: |
+          poetry version prerelease
+          PROJECT_VERSION="v$(poetry version --short)"
+          echo "Project version is $(PROJECT_VERSION)"
+          git config --global user.name 'gh-actions'
+          git config --global user.email '3979063+craig8@users.noreply.github.com'
+          git add pyproject.toml
+          git commit -m "[RELEASE] $(PROJECT_VERSION)"
+          git push
         
       #----------------------------------------------
       #       load cached venv if cache exists
