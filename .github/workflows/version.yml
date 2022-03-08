@@ -1,10 +1,9 @@
 ---
-name: Deploy
+name: Version
 
 on:
   push:
     branches:
-      - main
       - develop
 
 defaults:
