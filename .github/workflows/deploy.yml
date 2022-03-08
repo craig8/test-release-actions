@@ -5,8 +5,9 @@ name: Deploy to PyPi
 
 on:
   push:
-    - develop
-    - main
+    branches:
+      - develop
+      - main
 
 defaults:
   run:
