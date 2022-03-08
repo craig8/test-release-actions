@@ -52,11 +52,14 @@ jobs:
           virtualenvs-in-project: true
           installer-parallel: true
       
-      - name: Bump and Commit
+      - name: Bump version
         run: |
-          poetry version prerelease --no-interaction
+          PROJECT_VERSION=$(poetry version --short)
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
-          echo "Project version is $(PROJECT_VERSION)"
+          echo "The project version is: $PROJECT_VERSION"
+      
+      -name: Commit
+       run: |
           git config --global user.name 'gh-actions'
           git config --global user.email '3979063+craig8@users.noreply.github.com'
           git add pyproject.toml
