@@ -4,8 +4,9 @@
 name: Deploy to PyPi
 
 on:
-  release:
-    types: [published]
+  push:
+    - develop
+    - main
 
 defaults:
   run:
@@ -29,12 +30,15 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+      
+      - name: Publish to pypi
+        run: echo "Publishing to pypi"
 
-      - name: Build and publish to pypi
-        uses: JRubics/poetry-publish@v1.7
-        with:
-          # These are only needed when using test.pypi
-          #repository_name: testpypi
-          #repository_url: https://test.pypi.org/legacy/
-          pypi_token: ${{ secrets.PYPI_TOKEN }}
-          ignore_dev_requirements: "yes"
+      # - name: Build and publish to pypi
+      #   uses: JRubics/poetry-publish@v1.7
+      #   with:
+      #     # These are only needed when using test.pypi
+      #     #repository_name: testpypi
+      #     #repository_url: https://test.pypi.org/legacy/
+      #     pypi_token: ${{ secrets.PYPI_TOKEN }}
+      #     ignore_dev_requirements: "yes"
