@@ -60,6 +60,7 @@ jobs:
       
       - run: git config --global user.name 'gh-actions'
       - run: git config --global user.email '3979063+craig8@users.noreply.github.com'
+      - run: git add pyproject.toml
       - run: git commit -m "[RELEASE] $(PROJECT_VERSION)"
       - run: git push
         
