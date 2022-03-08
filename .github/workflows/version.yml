@@ -51,12 +51,13 @@ jobs:
           installer-parallel: true
       
       - name: Bump Version
-        - run: poetry version prerelease
-        - run: PROJECT_VERSION="v$(poetry version --short)"
+        run: | 
+          poetry version prerelease
+          run: PROJECT_VERSION="v$(poetry version --short)"
 
       - name: Commit with [RELEASE]
         with:
-            token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         
         - run: git config --global user.name '${{ secrets.GH_USERNAME }}'
         - run: git config --global user.email '${{ secrets.GH_EMAIL }}'
