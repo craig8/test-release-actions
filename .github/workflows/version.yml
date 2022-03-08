@@ -54,7 +54,7 @@ jobs:
       
       - name: Bump version
         run: |
-          poetry prerelease
+          poetry version prerelease
           PROJECT_VERSION=$(poetry version --short)
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
           echo "The project version is: $PROJECT_VERSION"
