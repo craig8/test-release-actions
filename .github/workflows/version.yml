@@ -95,10 +95,13 @@ jobs:
           # passing it to poetry.  This allows us to be 100% on tags without worrying
           # about the version in the pyproject.yml file.
           TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
+          echo "TAGGED_VERSION before strip: ${ TAGGED_VERSION}"
           TAGGED_VERSION=${TAGGED_VERSION:1}
+          echo "TAGGED_VERSION after strip: ${ TAGGED_VERSION}"
           poetry version ${TAGGED_VERSION}
           poetry version prerelease --no-interaction
           poetry version
+          poetry version --short
           PROJECT_VERSION=$(poetry version --short)
           # Copy to github env so we can reference it later in the git tag creation.
           echo "PROJECT_VERSION=v$PROJECT_VERSION" >> $GITHUB_ENV
