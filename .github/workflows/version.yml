@@ -96,7 +96,7 @@ jobs:
           echo $(poetry version)
           current_tag=${{ steps.previoustag.outputs.tag }}
           echo "current tag before cut $current_tag"
-          current_tag=$(echo $current_tag | cut -c 1-)
+          current_tag=${current_tag#?}
           echo "current tag is now $current_tag"
           # Because our tags are versioned with v we need to remove it before
           # passing it to poetry.  This allows us to be 100% on tags without worrying
