@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "testmodule"
-version = "0.1.1-alpha.4"
+version = "0.1.1-alpha.5"
 description = ""
 authors = ["volttron <volttron@pnnl.gov>"]
 license = "Apache 2"
