@@ -1,5 +1,5 @@
 ---
-name: Version
+name: Bump and Publish
 
 on:
   push:
@@ -16,12 +16,13 @@ env:
   PYTHON_VERSION: '3.8'
   PROJECT_NAME: test-release-actions
   GITHUB_TOKEN: ${{ secrets.PAT }}
+  RUNS_ON: ubuntu-20.04
 
 jobs:
 
-  version:
+  bump_version:
 
-    runs-on: ubuntu-20.04
+    runs-on: ${{ env.RUNS_ON }}
     # Only run this job if the commit message doesn't start with release sentinel.
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
@@ -121,8 +122,37 @@ jobs:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+  publish_to_pypi:
+    runs-on: ${{ env.RUNS_ON }}
+    needs: bump_version
+    steps:
+      - name: Configure Poetry to use Pypi Repository
+        run: |
+          poetry config repositories.test-pypi https://test.pypi.org/legacy/
+          poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
 
-      #----------------------------------------------------------------
+      - name: Build and publish
+        run: |
+          poetry publish --build -vvv -r test-pypi
+
+
+
+      #
+#  publish_to_pypi:
+#    name: Publish to pypi
+#    needs: "bump_version"
+#    steps:
+#      - run: echo "foo"
+#steps:
+#  - name: Configure Poetry to use Pypi Repository
+#    run: |
+#      poetry config repositories.test-pypi https://test.pypi.org/legacy/
+#      poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
+#
+#  - name: Build and publish
+#    run: |
+#      poetry publish --build -vvv -r test-pypi
+#  #----------------------------------------------------------------
       #       create release notes;
       #       the git log command will check all commits since the last tag to HEAD.
       #       For each commit, appends the commit hash, the commit message
