@@ -86,12 +86,14 @@ jobs:
         run: |
           PROJECT_VERSION=$(poetry version --short)
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
-      - name: Guardrail to check if tag version matches project version
-        run: |
-          TAG=$(git describe HEAD --tags --abbrev=0)
-          echo $TAG
-          echo $PROJECT_VERSION
-          if [[ "$TAG" != "v$PROJECT_VERSION" ]]; then exit 1; fi
+
+#      - name: Guardrail to check if tag version matches project version
+#        run: |
+#          TAG=$(git describe HEAD --tags --abbrev=0)
+#          echo $TAG
+#          echo $PROJECT_VERSION
+#          if [[ "$TAG" != "v$PROJECT_VERSION" ]]; then exit 1; fi
+#
 
       #---------------------------------------------------------------
       # create build artifacts to be included as part of release
