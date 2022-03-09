@@ -91,7 +91,10 @@ jobs:
       - name: Bump Version
         run: |
           poetry version
-          poetry version "${${{ steps.previoustag.outputs.tag }}:1}"
+          # Because our tags are versioned with v
+          TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
+          TAGGED_VERSION=${TAGGED_VERSION:1}
+          poetry version ${TAGGED_VERSION}
           poetry version prerelease --no-interaction
           poetry version
           PROJECT_VERSION=$(poetry version --short)
