@@ -118,9 +118,8 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          github_token: ${{ secrets.PAT }}
+
 
       #----------------------------------------------------------------
       #       create release notes;
