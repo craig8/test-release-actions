@@ -90,8 +90,11 @@ jobs:
       #----------------------------------------------
       - name: Bump Version
         run: |
-          blah=$(poetry version)
+          blah=$(poetry version --short)
           echo $blah
+          poetry version $blah
+          echo $(poetry version)
+          echo ${{ steps.previoustag.outputs.tag }}
           # Because our tags are versioned with v we need to remove it before
           # passing it to poetry.  This allows us to be 100% on tags without worrying
           # about the version in the pyproject.yml file.
