@@ -95,6 +95,7 @@ jobs:
           poetry version $blah
           echo $(poetry version)
           current_tag=${{ steps.previoustag.outputs.tag }}
+          echo "current tag before cut $current_tag"
           current_tag=$(echo $current_tag | cut -c 1-)
           echo "current tag is now $current_tag"
           # Because our tags are versioned with v we need to remove it before
