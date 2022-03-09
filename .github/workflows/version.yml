@@ -90,6 +90,7 @@ jobs:
       #----------------------------------------------
       - name: Bump Version
         run: |
+          poetry version
           poetry version ${{ steps.previoustag.outputs.tag }}
           poetry version prerelease --no-interaction
           poetry version
