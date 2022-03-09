@@ -68,7 +68,14 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-      
+
+      #----------------------------------------------
+      # install your root project, if required
+      #----------------------------------------------
+      - name: Install library
+        run: poetry install --no-interaction
+
+
       #----------------------------------------------
       # bump version number for patch
       #----------------------------------------------
@@ -76,12 +83,6 @@ jobs:
         run: poetry version prerelease --no-interaction
 
       - run: git status
-
-      #----------------------------------------------
-      # install your root project, if required
-      #----------------------------------------------
-      - name: Install library
-        run: poetry install --no-interaction
 
       #----------------------------------------------------------------
       #       get project version from pyproject.toml; store in env var
