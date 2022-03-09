@@ -94,7 +94,8 @@ jobs:
           echo $blah
           poetry version $blah
           echo $(poetry version)
-          echo ${{ steps.previoustag.outputs.tag }}
+          blarg=${{ steps.previoustag.outputs.tag }}
+          echo $blarg
           # Because our tags are versioned with v we need to remove it before
           # passing it to poetry.  This allows us to be 100% on tags without worrying
           # about the version in the pyproject.yml file.
