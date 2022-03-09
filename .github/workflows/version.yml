@@ -108,23 +108,33 @@ jobs:
         run: |
           poetry build -vvv
 
-      - name: Commit
-        run: |
-          git config --global user.name 'gh-actions'
-          git config --global user.email '3979063+craig8@users.noreply.github.com'
-          git add pyproject.toml
-          git commit -m "[RELEASE] $PROJECT_VERSION"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: ${{ github.ref }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Commit
+#        run: |
+#          git config --global user.name 'gh-actions'
+#          git config --global user.email '3979063+craig8@users.noreply.github.com'
+#          git add pyproject.toml
+#          git commit -m "[RELEASE] $PROJECT_VERSION"
+#
+#      - name: Push changes
+#        uses: ad-m/github-push-action@master
+#        with:
+#          branch: ${{ github.ref }}
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
 #
 #  publish_to_pypi:
 #    runs-on: ubuntu-20.04
 #    needs: bump_version
 #    steps:
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*.gz,dist/*.whl"
+          bodyFile: "body.md"
+          artifactErrorsFailBuild: true
+          generateReleaseNotes: true
+          prerelease: true
+          tag: ${{ PROJECT_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Configure Poetry to use Pypi Repository
         run: |
           poetry config repositories.test-pypi https://test.pypi.org/legacy/
