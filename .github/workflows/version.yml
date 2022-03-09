@@ -15,6 +15,7 @@ env:
   LC_ALL: en_US.utf-8
   PYTHON_VERSION: '3.8'
   PROJECT_NAME: test-release-actions
+  GITHUB_TOKEN: ${{ secrets.PAT }}
 
 jobs:
 
@@ -118,7 +119,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
-          github_token: ${{ secrets.PAT }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
 
       #----------------------------------------------------------------
