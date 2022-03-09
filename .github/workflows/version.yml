@@ -95,9 +95,9 @@ jobs:
           # passing it to poetry.  This allows us to be 100% on tags without worrying
           # about the version in the pyproject.yml file.
           TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
-          echo "TAGGED_VERSION before strip: ${ TAGGED_VERSION}"
+          echo "TAGGED_VERSION before strip: $(TAGGED_VERSION)"
           TAGGED_VERSION=${TAGGED_VERSION:1}
-          echo "TAGGED_VERSION after strip: ${ TAGGED_VERSION}"
+          echo "TAGGED_VERSION after strip: $(TAGGED_VERSION)"
           poetry version ${TAGGED_VERSION}
           poetry version prerelease --no-interaction
           poetry version
