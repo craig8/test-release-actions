@@ -85,7 +85,7 @@ jobs:
       - name: Add version to environment vars
         run: |
           PROJECT_VERSION=$(poetry version --short)
-          echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
+          echo "PROJECT_VERSION=v$PROJECT_VERSION" >> $GITHUB_ENV
 
 #      - name: Guardrail to check if tag version matches project version
 #        run: |
@@ -117,10 +117,10 @@ jobs:
       #       For each commit, appends the commit hash, the commit message
       #       subject, the author name, and the author email to the release template.
       #----------------------------------------------------------------
-      - name: Release Notes
-        run: git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> ".github/RELEASE-TEMPLATE.md"
-      - name: Echo log
-        run: git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges
+#      - name: Release Notes
+#        run: git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges >> ".github/RELEASE-TEMPLATE.md"
+#      - name: Echo log
+#        run: git log $(git describe HEAD~ --tags --abbrev=0)..HEAD --pretty='format:* %h %s%n  * %an <%ae>' --no-merges
 
       #----------------------------------------------------------------
       #       create release draft which will be visible at https://github.com/VOLTTRON/volttron-core/releases
