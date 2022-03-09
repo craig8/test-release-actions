@@ -84,6 +84,7 @@ jobs:
         run: |
           TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
           TAGGED_VERSION=${TAGGED_VERSION:1}
+          echo "Tagged version is: ${TAGGED_VERSION}"
           poetry version ${TAGGED_VERSION}
           poetry install --no-interaction
           # Make sure we don't have something from last time.
