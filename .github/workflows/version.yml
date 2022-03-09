@@ -44,7 +44,6 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - run: git pull --no-rebase
       #----------------------------------------------
       #  -----  install & configure poetry  -----
       #----------------------------------------------
@@ -121,11 +120,11 @@ jobs:
         with:
           branch: ${{ github.ref }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-  publish_to_pypi:
-    runs-on: ubuntu-20.04
-    needs: bump_version
-    steps:
+#
+#  publish_to_pypi:
+#    runs-on: ubuntu-20.04
+#    needs: bump_version
+#    steps:
       - name: Configure Poetry to use Pypi Repository
         run: |
           poetry config repositories.test-pypi https://test.pypi.org/legacy/
