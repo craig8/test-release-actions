@@ -132,7 +132,7 @@ jobs:
           artifactErrorsFailBuild: true
           generateReleaseNotes: true
           prerelease: true
-          tag: ${{ PROJECT_VERSION }}
+          tag: ${{ env.PROJECT_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Poetry to use Pypi Repository
