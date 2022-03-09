@@ -91,7 +91,7 @@ jobs:
       - name: Bump Version
         run: |
           poetry version
-          poetry version ${{ steps.previoustag.outputs.tag:1 }}
+          poetry version "${${{ steps.previoustag.outputs.tag:1 }}:1}"
           poetry version prerelease --no-interaction
           poetry version
           PROJECT_VERSION=$(poetry version --short)
