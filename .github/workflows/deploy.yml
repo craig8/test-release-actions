@@ -27,13 +27,19 @@ jobs:
     runs-on: ubuntu-20.04
 
     # Only run this job if starts with release sentinel.
-    if: "startsWith(github.event.head_commit.message, '[RELEASE]')"
+
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-      - run: echo "${{ github.event.head_commit.message }} "
+      - name: Running message
+        run: echo "${{ github.event.head_commit.message }} "
+
+      - name: Should run message
+        if: "startsWith(github.event.head_commit.message, '[RELEASE]')"
+        run: echo "Did I run this?"
+
 #      - name: Checkout code
 #        uses: actions/checkout@v2
 #        with:
