@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "testmodule"
+name = "craigs-testmodule"
 version = "0.1.1-alpha.17"
 description = ""
 authors = ["volttron <volttron@pnnl.gov>"]
