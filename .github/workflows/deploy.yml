@@ -4,10 +4,10 @@
 name: Deploy to PyPi
 
 on:
-  push:
-    branches:
-      - develop
-      - main
+#  push:
+#    branches:
+#      - develop
+#      - main
   workflow_run:
     workflows:
       - Version
