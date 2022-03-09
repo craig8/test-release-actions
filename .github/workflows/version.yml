@@ -15,7 +15,6 @@ env:
   LC_ALL: en_US.utf-8
   PYTHON_VERSION: '3.8'
   PROJECT_NAME: test-release-actions
-  GITHUB_TOKEN: ${{ secrets.PAT }}
   RUNS_ON: ubuntu-20.04
 
 jobs:
@@ -92,13 +91,16 @@ jobs:
       - name: Bump Version
         run: |
           poetry version
-          # Because our tags are versioned with v
+          # Because our tags are versioned with v we need to remove it before
+          # passing it to poetry.  This allows us to be 100% on tags without worrying
+          # about the version in the pyproject.yml file.
           TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
           TAGGED_VERSION=${TAGGED_VERSION:1}
           poetry version ${TAGGED_VERSION}
           poetry version prerelease --no-interaction
           poetry version
           PROJECT_VERSION=$(poetry version --short)
+          # Copy to github env so we can reference it later in the git tag creation.
           echo "PROJECT_VERSION=v$PROJECT_VERSION" >> $GITHUB_ENV
 
       - run: echo "My project version is ${{ env.PROJECT_VERSION}}"
