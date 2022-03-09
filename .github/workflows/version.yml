@@ -71,35 +71,31 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
-      #----------------------------------------------
-      # install your root project, if required
-      #----------------------------------------------
-      - name: Install library
-        run: |
-          poetry install --no-interaction
-          # Make sure we don't have something from last time.
-          rm dist -rf
-
-
       - name: 'Get Previous tag'
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
           fallback: v1.0.0
 
-
-
+      #----------------------------------------------
+      # install your root project, if required
+      #----------------------------------------------
+      - name: Install library
+        run: |
+          TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
+          TAGGED_VERSION=${TAGGED_VERSION:1}
+          poetry version ${TAGGED_VERSION}
+          poetry install --no-interaction
+          # Make sure we don't have something from last time.
+          rm dist -rf
 
       #----------------------------------------------
       # bump version number for patch
       #----------------------------------------------
       - name: Bump Version
         run: |
+          echo "now it is version"
           poetry version
-          # Because our tags are versioned with v
-          TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
-          TAGGED_VERSION=${TAGGED_VERSION:1}
-          poetry version ${TAGGED_VERSION}
           poetry version prerelease --no-interaction
           poetry version
           PROJECT_VERSION=$(poetry version --short)
