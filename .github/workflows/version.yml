@@ -115,6 +115,11 @@ jobs:
           git commit -m "[RELEASE] $PROJECT_VERSION"
           git push
 
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT}}
+
       #----------------------------------------------------------------
       #       create release notes;
       #       the git log command will check all commits since the last tag to HEAD.
