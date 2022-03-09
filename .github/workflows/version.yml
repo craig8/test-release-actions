@@ -63,6 +63,7 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
       #----------------------------------------------
       # install dependencies if cache does not exist
       #----------------------------------------------
@@ -76,6 +77,7 @@ jobs:
       - name: Install library
         run: |
           poetry install --no-interaction
+          # Make sure we don't have something from last time.
           rm dist -rf
 
 
@@ -94,6 +96,7 @@ jobs:
           PROJECT_VERSION=$(poetry version --short)
           echo "PROJECT_VERSION=v$PROJECT_VERSION" >> $GITHUB_ENV
 
+      - run: echo "My project version is ${{ env.PROJECT_VERSION}}"
       #---------------------------------------------------------------
       # create build artifacts to be included as part of release
       #---------------------------------------------------------------
