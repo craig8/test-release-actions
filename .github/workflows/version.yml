@@ -18,10 +18,11 @@ env:
 
 jobs:
 
-  autorelease:
+  version:
 
     runs-on: ubuntu-20.04
-
+    # Only run this job if the commit message doesn't start with release sentinel.
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"

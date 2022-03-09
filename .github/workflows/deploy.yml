@@ -16,7 +16,9 @@ defaults:
 env:
   LANG: en_US.utf-8
   LC_ALL: en_US.utf-8
-  PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+  #TEST_PYPI_TOKEN: {{ s}}
+  PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
+
 
 jobs:
 
@@ -24,16 +26,62 @@ jobs:
 
     runs-on: ubuntu-20.04
 
+    # Only run this job if starts with release sentinel.
+    if: "startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Publish to pypi
-        run: echo "Publishing to pypi"
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2.1.7
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      #----------------------------------------------
+      # install dependencies if cache does not exist
+      #----------------------------------------------
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+
+      # Determine whether we are going to be doing a pre-release or real release
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: Configure Poetry to use Pypi Repository
+        run: |
+          poetry config repositories.test-pypi https://test.pypi.org/legacy/
+          poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
+
+      - name: Build and publish
+        run: |
+          poetry publish --build -vvv -r test-pypi
 
       # - name: Build and publish to pypi
       #   uses: JRubics/poetry-publish@v1.7
