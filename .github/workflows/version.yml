@@ -22,7 +22,7 @@ jobs:
 
   bump_version:
 
-    runs-on: ${{ env.RUNS_ON }}
+    runs-on: ubuntu-20.04
     # Only run this job if the commit message doesn't start with release sentinel.
     if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
@@ -123,7 +123,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   publish_to_pypi:
-    runs-on: ${{ env.RUNS_ON }}
+    runs-on: ubuntu-20.04
     needs: bump_version
     steps:
       - name: Configure Poetry to use Pypi Repository
