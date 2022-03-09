@@ -82,10 +82,6 @@ jobs:
       #----------------------------------------------
       - name: Install library
         run: |
-          TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
-          TAGGED_VERSION=${TAGGED_VERSION:1}
-          echo "Tagged version is: ${TAGGED_VERSION}"
-          poetry version ${TAGGED_VERSION}
           poetry install --no-interaction
           # Make sure we don't have something from last time.
           rm dist -rf
@@ -95,8 +91,11 @@ jobs:
       #----------------------------------------------
       - name: Bump Version
         run: |
-          echo "now it is version"
           poetry version
+          # Because our tags are versioned with v
+          TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
+          TAGGED_VERSION=${TAGGED_VERSION:1}
+          poetry version ${TAGGED_VERSION}
           poetry version prerelease --no-interaction
           poetry version
           PROJECT_VERSION=$(poetry version --short)
