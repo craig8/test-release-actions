@@ -70,23 +70,12 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
-#      - name: 'Get Previous tag'
-#        id: previoustag
-#        uses: younited/get-previous-tag-action@v1.0.0
-#        with:
-#          match: v*
-##        uses: "WyriHaximus/github-action-get-previous-tag@v1.0.0"
-##        with:
-##          fallback: v1.0.0
-#      - run: echo ${{ steps.previoustag.outputs.result }}
       #----------------------------------------------
       # install your root project, if required
       #----------------------------------------------
       - name: Install library
         run: |
           poetry install --no-interaction
-          # Make sure we don't have something from last time.
-          rm dist -rf
 
       #----------------------------------------------
       # bump version number for patch
@@ -104,31 +93,11 @@ jobs:
           poetry version prerelease --no-interaction
 
           NEW_TAG=v$(poetry version --short)
-          echo "The new tag is ${NEW_TAG}"
 
           # Finally because we want to be able to use the variable in later
           # steps we set a NEW_TAG environmental variable
           echo "NEW_TAG=$(echo ${NEW_TAG})" >> $GITHUB_ENV
 
-
-          # Because our tags are versioned with v we need to remove it before
-          # passing it to poetry.  This allows us to be 100% on tags without worrying
-          # about the version in the pyproject.yml file.
-          # echo "TAGGED_VERSION=$(echo ${{ steps.previoustag.outputs.tag }} | cut -c 1-)" >> $GITHUB_ENV
-#          TAGGED_VERSION=${{ steps.previoustag.outputs.tag }}
-#          echo "TAGGED_VERSION before strip: $(TAGGED_VERSION)"
-#          TAGGED_VERSION=${TAGGED_VERSION:1}
-#          echo "TAGGED_VERSION after strip: $(TAGGED_VERSION)"
-          #echo "VERSION IS ${{ env.TAGGED_VERSION}}"
-#          poetry version ${TAGGED_VERSION}
-#          poetry version prerelease --no-interaction
-#          poetry version
-#          poetry version --short
-#          PROJECT_VERSION=$(poetry version --short)
-#          # Copy to github env so we can reference it later in the git tag creation.
-#          echo "PROJECT_VERSION=v$PROJECT_VERSION" >> $GITHUB_ENV
-
-      - run: echo "My project version is ${{ env.NEW_TAG}}"
       #---------------------------------------------------------------
       # create build artifacts to be included as part of release
       #---------------------------------------------------------------
@@ -151,6 +120,6 @@ jobs:
           poetry config repositories.test-pypi https://test.pypi.org/legacy/
           poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
 
-      - name: Build and publish
+      - name: Publish to test-pypi
         run: |
           poetry publish -r test-pypi
