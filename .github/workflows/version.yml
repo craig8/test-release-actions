@@ -78,7 +78,7 @@ jobs:
 #        uses: "WyriHaximus/github-action-get-previous-tag@v1.0.0"
 #        with:
 #          fallback: v1.0.0
-      - run: echo ${{ steps.previoustag.outputs }}
+      - run: echo ${{ steps.previoustag.outputs.result }}
       #----------------------------------------------
       # install your root project, if required
       #----------------------------------------------
@@ -95,7 +95,7 @@ jobs:
         run: |
           # current_tag is the last tagged relese in the repository.   From there
           # we need to remove the v from the begining of the tag.
-          current_tag=${{ steps.previoustag.outputs.tag }}
+          current_tag=${{ steps.previoustag.outputs.result }}
           current_tag=${current_tag#?}
 
           # current_tag is now the version we want to set our poetry version so
