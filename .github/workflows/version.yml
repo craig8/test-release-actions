@@ -141,6 +141,7 @@ jobs:
           artifacts: "dist/*.gz,dist/*.whl"
           artifactErrorsFailBuild: true
           generateReleaseNotes: true
+          commit: ${{ github.ref }}
           prerelease: true
           tag: ${{ env.NEW_TAG }}
           token: ${{ secrets.GITHUB_TOKEN }}
