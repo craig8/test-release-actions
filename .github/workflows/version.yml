@@ -105,6 +105,7 @@ jobs:
 
           # Finally because we want to be able to use the variable in later
           # steps we set a NEW_TAG environmental variable
+          echo "NEW_TAG=$(echo ${NEW_TAG}" >> $GITHUB_ENV
 
 
           # Because our tags are versioned with v we need to remove it before
@@ -124,7 +125,7 @@ jobs:
 #          # Copy to github env so we can reference it later in the git tag creation.
 #          echo "PROJECT_VERSION=v$PROJECT_VERSION" >> $GITHUB_ENV
 
-      - run: echo "My project version is ${{ env.PROJECT_VERSION}}"
+      - run: echo "My project version is ${{ env.NEW_TAG}}"
       #---------------------------------------------------------------
       # create build artifacts to be included as part of release
       #---------------------------------------------------------------
@@ -138,7 +139,7 @@ jobs:
           artifactErrorsFailBuild: true
           generateReleaseNotes: true
           prerelease: true
-          tag: ${{ env.PROJECT_VERSION }}
+          tag: ${{ env.NEW_TAG }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure Poetry to use Pypi Repository
