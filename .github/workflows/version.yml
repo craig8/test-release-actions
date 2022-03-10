@@ -72,9 +72,12 @@ jobs:
 
       - name: 'Get Previous tag'
         id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        uses: younited/get-previous-tag-action@v1.0.0
         with:
-          fallback: v1.0.0
+          match: v*
+#        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+#        with:
+#          fallback: v1.0.0
 
       #----------------------------------------------
       # install your root project, if required
@@ -100,7 +103,7 @@ jobs:
           poetry version ${current_tag}
           poetry version prerelease --no-interaction
 
-          NEW_TAG=v$(poetry version)
+          NEW_TAG=v$(poetry version --short)
           echo "The new tag is ${NEW_TAG}"
 
           # Finally because we want to be able to use the variable in later
