@@ -90,14 +90,23 @@ jobs:
       #----------------------------------------------
       - name: Bump Version
         run: |
-          blah=$(poetry version --short)
-          echo $blah
-          poetry version $blah
-          echo $(poetry version)
+          # current_tag is the last tagged relese in the repository.   From there
+          # we need to remove the v from the begining of the tag.
           current_tag=${{ steps.previoustag.outputs.tag }}
-          echo "current tag before cut $current_tag"
           current_tag=${current_tag#?}
-          echo "current tag is now $current_tag"
+
+          # current_tag is now the version we want to set our poetry version so
+          # that we can bump the version
+          poetry version ${current_tag}
+          poetry version prerelease --no-interaction
+
+          NEW_TAG=v$(poetry version)
+          echo "The new tag is ${NEW_TAG}
+
+          # Finally because we want to be able to use the variable in later
+          # steps we set a NEW_TAG environmental variable
+
+
           # Because our tags are versioned with v we need to remove it before
           # passing it to poetry.  This allows us to be 100% on tags without worrying
           # about the version in the pyproject.yml file.
