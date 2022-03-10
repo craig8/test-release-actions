@@ -34,8 +34,8 @@ jobs:
       #----------------------------------------------
       - name: Checkout code
         uses: actions/checkout@v2
-#        with:
-#          fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         id: setup-python
