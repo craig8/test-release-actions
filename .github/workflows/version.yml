@@ -101,7 +101,7 @@ jobs:
           poetry version prerelease --no-interaction
 
           NEW_TAG=v$(poetry version)
-          echo "The new tag is ${NEW_TAG}
+          echo "The new tag is ${NEW_TAG}"
 
           # Finally because we want to be able to use the variable in later
           # steps we set a NEW_TAG environmental variable
